@@ -1,6 +1,8 @@
 import socket
 
 def scan_ports(target_ip, start_port, end_port):
+    open_ports = []
+
     print(f"Scanning ports on {target_ip} from {start_port} to {end_port}")
 
     for port in range(start_port, end_port + 1):
@@ -10,11 +12,16 @@ def scan_ports(target_ip, start_port, end_port):
         result = sock.connect_ex((target_ip, port))
 
         if result == 0:
-            print(f"Port {port} is open")
-        else:
-            print(f"Port {port} is closed")
+            open_ports.append(port)
 
         sock.close()
+
+    if open_ports:
+        print("Open ports:")
+        for port in open_ports:
+            print(f"  Port {port}")
+    else:
+        print("No open ports found.")
 
 if __name__ == "__main__":
     target_ip = input("Enter target IP address: ")
